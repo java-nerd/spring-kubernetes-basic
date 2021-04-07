@@ -45,7 +45,7 @@
                     <!--Define the image name and the registry to be used,
                      Credentials needs to be passed via Maven Settings or Docker Env-->
                     <to>
-                        <image>registry.hub.docker.com/h1326733/demo</image>
+                        <image>registry.hub.docker.com/h1326733/spingboot-kube</image>
                     </to>
                 </configuration>
                 <executions>
