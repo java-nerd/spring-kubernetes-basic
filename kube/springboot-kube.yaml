@@ -1,0 +1,49 @@
+#deployment config
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot-demo
+spec:
+  #number of replicas needed for the app
+  replicas: 3
+  #selector to be used while deploying the pod
+  selector:
+    #match based on the label
+    matchLabels:
+      app: springboot-kube
+  template:
+    metadata:
+      #defines a label for the pod, which later can be used to match via selector
+      labels:
+        app: springboot-kube
+    spec:
+      #definition of the container
+      containers:
+        #container name
+        - name: springboot-kube
+          #image name from docker registry
+          image: h1326733/spingboot-kube
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
+
+---
+#Service Config
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: springboot-demo-service
+spec:
+  #expose all the pods with the label of app:springboot-kube
+  selector:
+    app: springboot-kube
+  ports:
+    #port for other pods to be connected
+    - port: 8082
+      #should match with the container port
+      targetPort: 8080
+      #port for actual web requests
+      nodePort: 32000
+  #make sure to manage traffic, if one pod is down, it will re-route the traffic to other pods
+  type: LoadBalancer
