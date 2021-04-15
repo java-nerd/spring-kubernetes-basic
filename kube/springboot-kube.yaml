@@ -2,13 +2,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  #deployment name
   name: springboot-demo
 spec:
   #number of replicas needed for the app
   replicas: 3
   #selector to be used while deploying the pod
   selector:
-    #match based on the label
+    #match based on the label, deployment object use this to match with the pod
+    #basically to control the lifecycle of the pod, it needs an identifier
     matchLabels:
       app: springboot-kube
   template:
@@ -25,6 +27,7 @@ spec:
           image: h1326733/spingboot-kube
           ports:
             - containerPort: 8080
+          # always pull the latest image
           imagePullPolicy: Always
 
 ---
@@ -39,11 +42,9 @@ spec:
   selector:
     app: springboot-kube
   ports:
-    #port for other pods to be connected
+    #port for the outside world
     - port: 8082
       #should match with the container port
       targetPort: 8080
-      #port for actual web requests
-      nodePort: 32000
   #make sure to manage traffic, if one pod is down, it will re-route the traffic to other pods
   type: LoadBalancer
