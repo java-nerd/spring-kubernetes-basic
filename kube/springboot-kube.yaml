@@ -47,4 +47,6 @@ spec:
       #should match with the container port
       targetPort: 8080
   #make sure to manage traffic, if one pod is down, it will re-route the traffic to other pods
-  type: LoadBalancer
+  #type: LoadBalancer
+  #this type of the object is used to be accessed by other objects mainly Ingress Server
+  type: ClusterIP
