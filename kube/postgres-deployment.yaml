@@ -12,6 +12,11 @@ spec:
       labels:
         app: postgress-db
     spec:
+      volumes:
+        - name: postgress-storage
+          #asking to use a PVC with the given name
+          persistentVolumeClaim:
+            claimName: persistent-volumen-claim
       containers:
         - name: postgress-container
           image: postgres
@@ -21,7 +26,21 @@ spec:
           #specifies an environment variable
           env:
             - name: POSTGRES_PASSWORD
-              value: password
+              valueFrom:
+                #get the value from the kubernetes secret
+                secretKeyRef:
+                  #name of the secret object
+                  name: secrets
+                  #name of the key
+                  key: postgres-password
+          #bind the PVC to the container data
+          volumeMounts:
+            #define which folder to be backed up
+            - mountPath: /var/lib/postgresql/data
+              #define a sub-folder inside PVC to store the data
+              subPath: postgres
+              #should match the PVC name
+              name: postgress-storage
 ---
 #service config
 apiVersion: v1

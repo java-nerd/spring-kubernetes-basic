@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: persistent-volumen-claim
+spec:
+  #define what kind of access granted for the volume
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      #capacity of the volume it offers
+      storage: 2Gi

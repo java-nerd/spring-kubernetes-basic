@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configs-map
+data:
+  #key value pair values are stored here
+  key: value
+
